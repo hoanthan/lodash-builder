@@ -9,7 +9,7 @@ export default function Hero() {
           Build Your Perfect Lodash Bundle
         </h1>
         <p className="mt-3 max-w-md mx-auto text-base sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
-          Create a custom Lodash build with only the functions you need. Optimize your project's size and performance
+          Create a custom Lodash build with only the functions you need. Optimize your project&apos;s size and performance
           with our interactive Lodash builder.
         </p>
         <div className="mt-10 sm:flex sm:justify-center">

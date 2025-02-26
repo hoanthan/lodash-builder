@@ -8,7 +8,8 @@ self.addEventListener("message", (event) => {
     const func = new Function("_", `return (${code})`)
     const result = func(_)
     self.postMessage(result)
-  } catch (error) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
     self.postMessage({ error: error.message })
   }
 })

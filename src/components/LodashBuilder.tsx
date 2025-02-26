@@ -1,52 +1,61 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { CodeBlock } from "@/components/ui/code-block"
-import { Combobox } from "@/components/ui/combobox"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { X } from "lucide-react"
-import _ from 'lodash'
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { CodeBlock } from "@/components/ui/code-block";
+import { Combobox } from "@/components/ui/combobox";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { X } from "lucide-react";
+import _ from "lodash";
 
-const lodashFunctions = Object.keys(_).filter(fnName => !['_', 'VERSION'].includes(fnName)).map((fnName) => ({
-  value: fnName,
-  label: fnName
-}))
+const lodashFunctions = Object.keys(_)
+  .filter(
+    (fnName) =>
+      typeof (_ as unknown as Record<string, unknown>)[fnName] === "function"
+  )
+  .map((fnName) => ({
+    value: fnName,
+    label: fnName,
+  }));
 
 export default function LodashBuilder() {
-  const [selectedFunctions, setSelectedFunctions] = useState<string[]>([])
-  const [functionInputs, setFunctionInputs] = useState<{ [key: string]: string }>({})
-  const [output, setOutput] = useState("")
+  const [selectedFunctions, setSelectedFunctions] = useState<string[]>([]);
+  const [functionInputs, setFunctionInputs] = useState<{
+    [key: string]: string;
+  }>({});
+  const [output, setOutput] = useState("");
 
   const addFunction = (func: string) => {
     if (!selectedFunctions.includes(func)) {
-      setSelectedFunctions((prev) => [...prev, func])
-      setFunctionInputs((prev) => ({ ...prev, [func]: "" }))
+      setSelectedFunctions((prev) => [...prev, func]);
+      setFunctionInputs((prev) => ({ ...prev, [func]: "" }));
     }
-  }
+  };
 
   const removeFunction = (func: string) => {
-    setSelectedFunctions((prev) => prev.filter((f) => f !== func))
+    setSelectedFunctions((prev) => prev.filter((f) => f !== func));
     setFunctionInputs((prev) => {
-      const newInputs = { ...prev }
-      delete newInputs[func]
-      return newInputs
-    })
-  }
+      const newInputs = { ...prev };
+      delete newInputs[func];
+      return newInputs;
+    });
+  };
 
   const updateFunctionInput = (func: string, input: string) => {
-    setFunctionInputs((prev) => ({ ...prev, [func]: input }))
-  }
+    setFunctionInputs((prev) => ({ ...prev, [func]: input }));
+  };
 
   const generateCode = () => {
-    const code = selectedFunctions.map((func) => `_.${func}(${functionInputs[func] || ""})`).join(".")
-    return `const result = ${code};`
-  }
+    const code = selectedFunctions
+      .map((func) => `_.${func}(${functionInputs[func] || ""})`)
+      .join(".");
+    return `const result = ${code};`;
+  };
 
   const executeCode = async () => {
-    const code = generateCode()
+    const code = generateCode();
     try {
       const response = await fetch("/api/lodash-execute", {
         method: "POST",
@@ -54,13 +63,19 @@ export default function LodashBuilder() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ code }),
-      })
-      const result = await response.json()
-      setOutput(JSON.stringify(result, null, 2))
+      });
+      const result = await response.json();
+      setOutput(JSON.stringify(result, null, 2));
     } catch {
-      setOutput(JSON.stringify({ error: "An error occurred while executing the code." }, null, 2))
+      setOutput(
+        JSON.stringify(
+          { error: "An error occurred while executing the code." },
+          null,
+          2
+        )
+      );
     }
-  }
+  };
 
   return (
     <div id="builder" className="container mx-auto py-10">
@@ -71,7 +86,11 @@ export default function LodashBuilder() {
             <CardTitle>Select Lodash Functions</CardTitle>
           </CardHeader>
           <CardContent>
-            <Combobox options={lodashFunctions} onSelect={addFunction} placeholder="Select a function" />
+            <Combobox
+              options={lodashFunctions}
+              onSelect={addFunction}
+              placeholder="Select a function"
+            />
             <div className="mt-4 space-y-2">
               {selectedFunctions.map((func) => (
                 <div key={func} className="flex items-center space-x-2">
@@ -82,7 +101,11 @@ export default function LodashBuilder() {
                     onChange={(e) => updateFunctionInput(func, e.target.value)}
                     className="flex-grow"
                   />
-                  <Button variant="outline" size="icon" onClick={() => removeFunction(func)}>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => removeFunction(func)}
+                  >
                     <X className="h-4 w-4" />
                   </Button>
                 </div>
@@ -98,11 +121,16 @@ export default function LodashBuilder() {
             <CardTitle>Output</CardTitle>
           </CardHeader>
           <CardContent>
-            <CodeBlock code={output || 'Select functions, provide inputs, and click "Execute Chain"'} language="json" />
+            <CodeBlock
+              code={
+                output ||
+                'Select functions, provide inputs, and click "Execute Chain"'
+              }
+              language="json"
+            />
           </CardContent>
         </Card>
       </div>
     </div>
-  )
+  );
 }
-

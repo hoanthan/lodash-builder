@@ -10,7 +10,8 @@ export async function POST(request: Request) {
     const func = new Function("_", `${code} return result;`)
     const result = func(_)
     return NextResponse.json(result)
-  } catch (error) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }

@@ -63,7 +63,7 @@ export default function LodashBuilder() {
   }
 
   return (
-    <div className="container mx-auto py-10">
+    <div id="builder" className="container mx-auto py-10">
       <h1 className="text-3xl font-bold mb-8">Lodash Builder</h1>
       <div className="grid gap-6 md:grid-cols-2">
         <Card>

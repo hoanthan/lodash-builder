@@ -10,11 +10,11 @@ export default function Header() {
           <div className="flex items-center">
             <Link href="/" className="flex items-center">
               <Code className="h-8 w-8 text-primary" />
-              <span className="ml-2 text-xl font-bold text-gray-900">LodashPro</span>
+              <span className="ml-2 text-xl font-bold text-gray-900">LodashBuilder</span>
             </Link>
           </div>
           <nav className="hidden md:flex space-x-4">
-            <Button variant="ghost" asChild>
+            {/* <Button variant="ghost" asChild>
               <Link href="#features">Features</Link>
             </Button>
             <Button variant="ghost" asChild>
@@ -22,11 +22,11 @@ export default function Header() {
             </Button>
             <Button variant="ghost" asChild>
               <Link href="#docs">Docs</Link>
-            </Button>
+            </Button> */}
           </nav>
           <div>
             <Button asChild>
-              <Link href="#get-started">Get Started</Link>
+              <Link href="#builder">Get Started</Link>
             </Button>
           </div>
         </div>

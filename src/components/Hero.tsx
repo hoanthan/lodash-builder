@@ -14,13 +14,8 @@ export default function Hero() {
         </p>
         <div className="mt-10 sm:flex sm:justify-center">
           <div className="rounded-md shadow">
-            <Button size="lg" asChild>
-              <Link href="#lodash-builder">Try Lodash Builder</Link>
-            </Button>
-          </div>
-          <div className="mt-3 sm:mt-0 sm:ml-3">
             <Button size="lg" variant="outline" asChild>
-              <Link href="#docs">View Documentation</Link>
+              <Link href="#builder" className="text-foreground">Try Lodash Builder</Link>
             </Button>
           </div>
         </div>
